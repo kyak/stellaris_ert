@@ -22,6 +22,7 @@ void GPIOSetup(unsigned long ulPeripheral, unsigned long ulPort, unsigned char u
     ROM_SysCtlPeripheralEnable(ulPeripheral);
     ROM_GPIOPinTypeGPIOOutput(ulPort, ucPinsOutput);
     /* The rest pins are configured as inputs */
-    ROM_GPIOPinTypeGPIOInput(ulPort, ucPinsOutput ^ 0xFF);
+    //disable for now, since it breaks Button SW1. The pins are initialized as inputs on reset anyway.
+    //ROM_GPIOPinTypeGPIOInput(ulPort, ucPinsOutput ^ 0xFF);
 #endif
 }
