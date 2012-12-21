@@ -1,0 +1,37 @@
+%% SYSTLC: TI Stellaris LaunchPad TMF: stellaris_tmf MAKE: make_rtw \
+%% EXTMODE: ext_comm
+
+%assign CodeFormat = "Embedded-C"
+%assign Language   = "C"
+%assign TargetType = "RT"
+
+%include "codegenentry.tlc"
+
+/%
+  BEGIN_RTW_OPTIONS
+  rtwoptions(1).prompt         = 'Stellaris LaunchPad Options';
+  rtwoptions(1).type           = 'Category';
+  rtwoptions(1).enable         = 'on';  
+  rtwoptions(1).default        = 1;   % number of items under this category
+                                      % excluding this one.
+  rtwoptions(1).popupstrings  = '';
+  rtwoptions(1).tlcvariable   = '';
+  rtwoptions(1).tooltip       = '';
+  rtwoptions(1).callback      = '';
+  rtwoptions(1).makevariable  = '';
+
+  rtwoptions(2).prompt         = 'Download to Stellaris LaunchPad';
+  rtwoptions(2).type           = 'Checkbox';
+  rtwoptions(2).default        = 'on';
+  rtwoptions(2).tlcvariable    = '';
+  rtwoptions(2).makevariable   = 'LAUNCHPAD_DOWNLOAD';
+  rtwoptions(2).tooltip        = ['Download binary to Stellaris Launchpad'];
+  rtwoptions(2).callback       = ''; 
+
+  rtwgensettings.DerivedFrom = 'ert.tlc';
+  rtwgensettings.BuildDirSuffix = '_stellaris';
+  rtwgensettings.Version = '1';
+  rtwgensettings.SelectCallback = ['stellaris_callback_handler(hDlg, hSrc)'];
+
+  END_RTW_OPTIONS
+%/

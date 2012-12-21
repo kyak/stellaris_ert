@@ -1,0 +1,7 @@
+blocks/sfun_*
+blocks/rtwmakecfg.m
+*.o
+*.so*
+*.r2012a
+docs/*
+TODO

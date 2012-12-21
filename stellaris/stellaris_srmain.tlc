@@ -1,0 +1,209 @@
+%selectfile NULL_FILE
+
+%function FcnSingleTaskingMain(mainFileName) void
+  
+  %if GenerateSampleERTMain
+    %assign ::CompiledModel.GenerateSampleERTMain = TLC_FALSE
+    %warning Overriding example (e)rt_main.c!
+  %endif
+
+  %assign cFile = LibCreateSourceFile("Source", "Custom", mainFileName)
+
+  %openfile tmpBuf
+  static boolean_T OverrunFlag = 0;\
+  
+  %<SLibDeclareFcnProtoCtlVariables()>\
+  
+  %<LibWriteModelData()>\
+  %closefile tmpBuf
+  
+  %<LibSetSourceFileSection(cFile, "Definitions", tmpBuf)>
+  
+  %openfile tmpBuf
+  #include "%<LibGetMdlPubHdrBaseName()>.h"
+  #include "inc/hw_ints.h"
+  #include "inc/hw_memmap.h"
+  #include "inc/hw_types.h"
+  #include "driverlib/debug.h"
+  #include "driverlib/fpu.h"
+  #include "driverlib/gpio.h"
+  #include "driverlib/interrupt.h"
+  #include "driverlib/pin_map.h"
+  #include "driverlib/rom.h"
+  #include "driverlib/sysctl.h"
+  #include "driverlib/timer.h"
+
+  #define STEP_SIZE %<CompiledModel.FundamentalStepSize>
+
+  %closefile tmpBuf
+ 
+  %<LibSetSourceFileSection(cFile, "Includes", tmpBuf)>
+  
+  %openfile tmpBuf
+  %assign fcnReturns = "void"
+  %assign fcnName = "rt_OneStep"
+  %assign fcnParams = ""
+  %assign fcnCategory = "main"
+  %createrecord fcnRec {Name fcnName; Returns fcnReturns; Params fcnParams; ...
+    Abstract ""; Category fcnCategory; GeneratedBy "bareboard_srmain.tlc"; ...
+    Type "Utility"}
+  %<SLibDumpFunctionBanner(fcnRec)>
+  %undef fcnRec
+  %<fcnReturns> %<fcnName>(%<fcnParams>)
+  {
+    /* Disable interrupts here */
+    
+    /* Check for overun */
+    if (OverrunFlag++) {
+      %<LibSetRTModelErrorStatus("\"Overrun\"")>;
+      return;
+    }
+    
+    /* Save FPU context here (if necessary) */
+    /* Re-enable timer or interrupt here */
+    %assign varsbuf = LibWriteModelInputs()
+    %if varsbuf != ""
+      /* Remove conditional, and set model inputs here */
+      %<varsbuf>\
+    %endif
+    
+    %<LibCallModelStep(0)>\
+    
+    %assign varsbuf = LibWriteModelOutputs()
+    %if varsbuf != ""
+      /* Remove conditional, and get model outputs here */
+      %<varsbuf>\
+    %endif
+    
+    OverrunFlag--;
+    
+    /* Disable interrupts here */
+    /* Restore FPU context here (if necessary) */
+    /* Enable interrupts here */
+  }
+
+//*****************************************************************************
+//
+// Flag used to toggle LED
+//
+//*****************************************************************************
+unsigned long g_ulFlags;
+
+  void
+  Timer0IntHandler(void)
+  {
+    //
+    // Clear the timer interrupt.
+    //
+    ROM_TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
+
+    //
+    // Toggle the flag for the first timer.
+    //
+    HWREGBITW(&g_ulFlags, 0) ^= 1;
+
+    //
+    // Use the flags to Toggle the LED for this timer
+    // 
+    //ROM_GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, g_ulFlags << 1);
+    
+    //
+    // Run the application step function
+    //
+    rt_OneStep();
+  }
+  %assign fcnReturns = "int_T"
+  %assign fcnName = "main"
+  %assign fcnParams = "int_T argc, const char_T *argv[]"
+  %assign fcnCategory = "main"
+  %createrecord fcnRec {Name fcnName; Returns fcnReturns; Params fcnParams; ...
+    Abstract ""; Category fcnCategory; GeneratedBy "bareboard_srmain.tlc"; ...
+    Type "Main"}
+  %<SLibDumpFunctionBanner(fcnRec)>
+  %undef fcnRec
+  %<fcnReturns> %<fcnName>(%<fcnParams>)
+  {  
+
+    /* Initialize model */
+    %<LibCallModelInitialize()>\
+
+    //
+    // Enable lazy stacking for interrupt handlers.  This allows floating-point
+    // instructions to be used within interrupt handlers, but at the expense of
+    // extra stack usage.
+    //
+    ROM_FPULazyStackingEnable();
+
+    //
+    // Set the clocking to run directly from the crystal.
+    //
+    //ROM_SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN |
+    //                   SYSCTL_XTAL_16MHZ);
+
+    //
+    // Set the system clock to run at 40Mhz off PLL with external crystal as 
+    // reference.
+    //
+    ROM_SysCtlClockSet(SYSCTL_SYSDIV_5 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ |
+                       SYSCTL_OSC_MAIN);
+
+    //
+    // Enable the GPIO port that is used for the on-board LED.
+    //
+    //ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+
+    //
+    // Enable the GPIO pins for the LED (RED one).  
+    //
+    //ROM_GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1);
+    
+    //
+    // Enable the timer which runs our application
+    //
+    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
+
+    //
+    // Enable processor interrupts.
+    //
+    ROM_IntMasterEnable();
+
+    //
+    // Configure the 32-bit periodic timer.
+    //
+    ROM_TimerConfigure(TIMER0_BASE, TIMER_CFG_PERIODIC);
+    ROM_TimerLoadSet(TIMER0_BASE, TIMER_A, ROM_SysCtlClockGet() * STEP_SIZE);
+    
+    //
+    // Setup the interrupt for the timer timeout.
+    //
+    ROM_IntEnable(INT_TIMER0A);
+    ROM_TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
+    
+    //
+    // Enable the timer.
+    //
+    ROM_TimerEnable(TIMER0_BASE, TIMER_A);
+    
+    //
+    // Loop forever while the timers run.
+    //
+    while(1)
+    {
+    }
+    %<LibCallModelTerminate()>\
+    return 0;
+  }
+
+  %closefile tmpBuf
+  
+  %<LibSetSourceFileSection(cFile, "Functions", tmpBuf)>
+  
+%endfunction
+
+%if !IsModelReferenceTarget()
+%%Might call %matlab here to find the version and use ert_main/rt_main
+%%accordingly.. From the other hand side, using the same name is even better
+  %assign mdlName = LibGetModelName()
+  %assign mainFileName = "main_%<mdlName>"
+  %<FcnSingleTaskingMain(mainFileName)>
+%endif
