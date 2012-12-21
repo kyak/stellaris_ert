@@ -16,10 +16,10 @@ addpref('stellaris','CCSRoot',CCSRoot);
 addpref('stellaris','CompilerRoot',CompilerRoot);
 addpref('stellaris','StellarisWareRoot',StellarisWareRoot);
 
-% cd('../blocks');
-% lct_genblocks;
-% cd(curpath);
-% sl_refresh_customizations;
+cd('../blocks');
+lct_genblocks;
+cd(curpath);
+sl_refresh_customizations;
 disp('TI Stellaris LaunchPad Target setup is complete!');
 end
 
