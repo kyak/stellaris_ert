@@ -44,14 +44,14 @@ What this package already has:
 - Simulink library blocks for:
         
         * GPIO
+        * Push Buttons
+        * UART Read/Write
 
 What this package would like to have:
 
 - Simulink library blocks for:
 
-        * Serial read/write
         * Built-in temperature sensor
-        * Push button
         * Generic ADC, PWM...
 - Execution in PIL mode
 - PIL mode profiling

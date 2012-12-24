@@ -28,8 +28,24 @@ Buttons.HeaderFiles = {'buttonslct.h'};
 Buttons.SourceFiles = {'buttonslct.c'};
 Buttons.StartFcnSpec = 'ButtonsInit()';
 Buttons.OutputFcnSpec = 'uint8 y1 = ButtonsRead(uint8 y2[1])';
+%% UART Read
+UARTRead = legacy_code('initialize');
+UARTRead.SFunctionName = 'sfun_UARTRead';
+UARTRead.HeaderFiles = {'uartlct.h'};
+UARTRead.SourceFiles = {'uartlct.c'};
+UARTRead.StartFcnSpec = 'UARTInit()';
+UARTRead.OutputFcnSpec = 'int32 y1 = UARTRead(uint8 p1, uint8 y2[1])';
+UARTRead.Options.supportsMultipleExecInstances = true;
+%% UART Write
+UARTWrite = legacy_code('initialize');
+UARTWrite.SFunctionName = 'sfun_UARTWrite';
+UARTWrite.HeaderFiles = {'uartlct.h'};
+UARTWrite.SourceFiles = {'uartlct.c'};
+UARTWrite.StartFcnSpec = 'UARTInit()';
+UARTWrite.OutputFcnSpec = 'UARTWrite(uint8 p1, uint8 u1)';
+UARTWrite.Options.supportsMultipleExecInstances = true;
 %% Put multiple registration files together
-def = [GPIOWrite(:);GPIORead(:);GPIOSetup(:);Buttons(:)];
+def = [GPIOWrite(:);GPIORead(:);GPIOSetup(:);Buttons(:);UARTRead(:);UARTWrite(:)];
 %% Legacy Code Tool
 % Generate, compile and link S-function for simulation
 legacy_code('generate_for_sim', def);
