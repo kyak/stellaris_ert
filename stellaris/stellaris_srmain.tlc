@@ -124,9 +124,6 @@ unsigned long g_ulFlags;
   %<fcnReturns> %<fcnName>(%<fcnParams>)
   {  
 
-    /* Initialize model */
-    %<LibCallModelInitialize()>\
-
     //
     // Enable lazy stacking for interrupt handlers.  This allows floating-point
     // instructions to be used within interrupt handlers, but at the expense of
@@ -166,6 +163,13 @@ unsigned long g_ulFlags;
     // Enable processor interrupts.
     //
     ROM_IntMasterEnable();
+
+    /* Initialize model */
+    /* Model initialization might involve enabling of some peripherals.
+     * I discovered that it must happen after IntMasterEnable(); otherwise
+     * I get non-deterministic behaviour. For example, UART Read may return
+     * bogus values after power cycle */
+    %<LibCallModelInitialize()>\
 
     //
     // Configure the 32-bit periodic timer.
