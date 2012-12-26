@@ -38,6 +38,7 @@ What this package already has:
 
 - Standalone execution on target (driven by ISR)
 - Execution in PIL mode
+- PIL mode profiling
 - Simulink library blocks for:
         
         * GPIO
@@ -50,6 +51,5 @@ What this package would like to have:
 
         * Built-in temperature sensor
         * Generic ADC, PWM...
-- PIL mode profiling
 - More documentation
 - External Mode support

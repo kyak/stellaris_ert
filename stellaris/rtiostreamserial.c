@@ -5,12 +5,15 @@
 #include "driverlib/gpio.h"
 #include "driverlib/rom.h"
 #include "driverlib/uart.h"
+#include "driverlib/timer.h"
 
 #include "rtiostream.h"
 #include "rtwtypes.h"
 
 void Timer0IntHandler(void) {
     /* This function is bogus and lives in startup_ccs.c */
+    /* TODO: don't add startup_ccs.c to sources in PIL mode */
+    ROM_TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
 }
 
 void UARTInit(void)
