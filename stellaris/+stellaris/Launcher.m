@@ -25,6 +25,12 @@ classdef Launcher < rtw.connectivity.Launcher
             if downloadToLaunchPad
                 stellaris_download(exe,'PIL');
             end
+            if isunix
+                % TODO it seems that there might be a bug in rtiostreamserial
+                % host implementation on Linux. The speed is not set or set too
+                % late...
+                system(['stty 115200 -F /dev/',getpref('stellaris','COMPort')]);
+            end
 			disp('### Starting PIL execution on TI Stellaris LaunchPad');
         end
         
