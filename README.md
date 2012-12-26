@@ -1,7 +1,7 @@
 Simulink (Embedded Coder) Target for TI Stellaris LaunchPad
 =============
 
-Summary:
+**Summary:**
 
 TI Stellaris LaunchPad (http://www.ti.com/stellaris-launchpad-b) is a low-cost
 development board based on ARM Cortex-M4F.
@@ -12,7 +12,7 @@ for multidomain simulation and Model-Based Design.
 Embedded Coder (http://www.mathworks.com/products/embedded-coder) allows you to
 generate C code and deploy your algorithms to target hardware.
 
-Installation:
+**Installation:**
 
 1) Windows/Linux: Have Code Composer Studio 5.3 installed (http://processors.wiki.ti.com/index.php/Download_CCS).
 
@@ -34,7 +34,7 @@ in MATLAB.
 
 You should be good to go.
 
-What this package already has:
+**What this package already has:**
 
 - Standalone execution on target (driven by ISR)
 - Execution in PIL mode
@@ -45,11 +45,12 @@ What this package already has:
         * Push Buttons
         * UART Read/Write
 
-What this package would like to have:
+**What this package would like to have:**
 
 - Simulink library blocks for:
 
         * Built-in temperature sensor
         * Generic ADC, PWM...
+        * Timers
 - More documentation
 - External Mode support
