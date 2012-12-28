@@ -5,7 +5,11 @@ if (strcmp(get_param(modelName,'SystemTargetFile')  ,'stellaris.tlc') && ...
     strcmp(get_param(modelName,'TargetHWDeviceType'),'Texas Instruments->TMS470'))
   
     % Check if user chose to Download to Launchpad in Settings
-    makertwObj = get_param(gcs, 'MakeRTWSettingsObject');
+    if verLessThan('matlab', '8.1')
+        makertwObj = get_param(gcs, 'MakeRTWSettingsObject');
+    else
+        makertwObj = coder.internal.ModelCodegenMgr.getInstance;
+    end
     makertwArgs = makertwObj.BuildInfo.BuildArgs;
     downloadToLaunchPad = 1;
     for i=1:length(makertwArgs)
