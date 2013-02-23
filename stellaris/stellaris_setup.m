@@ -5,11 +5,12 @@ tgtpath = curpath(1:end-length('/stellaris'));
 addpath(fullfile(tgtpath, 'stellaris'));
 addpath(fullfile(tgtpath, 'demos'));
 addpath(fullfile(tgtpath, 'blocks'));
+%addpath(fullfile(tgtpath, 'help'));
 savepath;
 if ispref('stellaris')
 	rmpref('stellaris');
 end
-addpref('stellaris','TargetRoot',curpath);
+addpref('stellaris','TargetRoot',fix_slash(curpath));
 addpref('stellaris','COMPort',setup_com_port);
 [CCSRoot, CompilerRoot, StellarisWareRoot] = ccs_setup_paths;
 addpref('stellaris','CCSRoot',CCSRoot);
@@ -25,9 +26,9 @@ end
 
 function [CCSRoot, CompilerRoot, StellarisWareRoot] = ccs_setup_paths()
 	% TODO: make it foolproof
-	CCSRoot = uigetdir(matlabroot,'CCS root directory: (the one with ccs_base, tools ...)');
-	CompilerRoot = uigetdir(CCSRoot,'CCS Compiler root directory: (tools/compiler/arm_5.X.X)');
-    StellarisWareRoot = uigetdir(CCSRoot,'StellarisWare root directory: (the one with boards, driverlib ...)');
+    CCSRoot = fix_slash(uigetdir(matlabroot,'CCS root directory: (the one with ccs_base, tools ...)'));
+    CompilerRoot = fix_slash(uigetdir(CCSRoot,'CCS Compiler root directory: (tools/compiler/arm_5.X.X)'));
+    StellarisWareRoot = fix_slash(uigetdir(CCSRoot,'StellarisWare root directory: (the one with boards, driverlib ...)'));
 end
 
 function COMPort = setup_com_port()
@@ -80,4 +81,11 @@ else
     %ports = regexp(regCmdOutput,'COM\d+','match');
 end
 names = [names_string,names];
+end
+
+function path = fix_slash(path0)
+path = path0;
+if ispc
+    path(path=='\')='/';
+end
 end
