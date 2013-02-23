@@ -5,3 +5,4 @@ blocks/rtwmakecfg.m
 *.r2012a
 docs/*
 TODO
+help/html/*.html
