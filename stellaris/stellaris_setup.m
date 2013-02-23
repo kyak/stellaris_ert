@@ -5,7 +5,7 @@ tgtpath = curpath(1:end-length('/stellaris'));
 addpath(fullfile(tgtpath, 'stellaris'));
 addpath(fullfile(tgtpath, 'demos'));
 addpath(fullfile(tgtpath, 'blocks'));
-%addpath(fullfile(tgtpath, 'help'));
+addpath(fullfile(tgtpath, 'help'));
 savepath;
 if ispref('stellaris')
 	rmpref('stellaris');
@@ -17,11 +17,18 @@ addpref('stellaris','CCSRoot',CCSRoot);
 addpref('stellaris','CompilerRoot',CompilerRoot);
 addpref('stellaris','StellarisWareRoot',StellarisWareRoot);
 
+% Generate blocks
 cd('../blocks');
 lct_genblocks;
 cd(curpath);
+% Generate help
+cd('../help/source');
+genhelp;
+cd(curpath);
+
 sl_refresh_customizations;
-disp('TI Stellaris LaunchPad Target setup is complete!');
+disp('<strong>TI Stellaris LaunchPad</strong> Target setup is complete!');
+disp('Explore <a href="matlab:cd([getpref(''stellaris'',''TargetRoot''),''/../demos''])">demos</a> directory and access <a href="matlab:doc -classic">documentation</a>');
 end
 
 function [CCSRoot, CompilerRoot, StellarisWareRoot] = ccs_setup_paths()
