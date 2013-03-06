@@ -44,8 +44,15 @@ UARTWrite.SourceFiles = {'uartlct.c'};
 UARTWrite.StartFcnSpec = 'UARTInit()';
 UARTWrite.OutputFcnSpec = 'UARTWrite(uint8 p1, uint8 u1)';
 UARTWrite.Options.supportsMultipleExecInstances = true;
+%% Built-in temperature sensor
+TempSensor = legacy_code('initialize');
+TempSensor.SFunctionName = 'sfun_TempSensor';
+TempSensor.HeaderFiles = {'tempsensorlct.h'};
+TempSensor.SourceFiles = {'tempsensorlct.c'};
+TempSensor.StartFcnSpec = 'TempSensorInit()';
+TempSensor.OutputFcnSpec = 'uint32 y1 = TempSensorRead(uint8 p1)';
 %% Put multiple registration files together
-def = [GPIOWrite(:);GPIORead(:);GPIOSetup(:);Buttons(:);UARTRead(:);UARTWrite(:)];
+def = [GPIOWrite(:);GPIORead(:);GPIOSetup(:);Buttons(:);UARTRead(:);UARTWrite(:);TempSensor(:)];
 %% Legacy Code Tool
 % Generate, compile and link S-function for simulation
 legacy_code('generate_for_sim', def);
