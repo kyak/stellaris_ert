@@ -44,12 +44,12 @@ You should be good to go.
         * GPIO
         * Push Buttons
         * UART Read/Write
+        * Built-in temperature sensor
 
 **What this package would like to have:**
 
 - Simulink library blocks for:
 
-        * Built-in temperature sensor
         * Generic ADC, PWM...
         * Timers
 - More documentation
