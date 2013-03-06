@@ -7,6 +7,7 @@ publish('gpio.m',options);
 publish('buttons.m',options);
 publish('pil.m',options);
 publish('sa.m',options);
+publish('tempsensor.m',options);
 
 %re-add help to path to refresh menu
 tgtpath = getpref('stellaris','TargetRoot');
