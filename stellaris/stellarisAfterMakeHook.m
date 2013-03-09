@@ -8,6 +8,8 @@ if (strcmp(get_param(modelName,'SystemTargetFile')  ,'stellaris.tlc') && ...
     if verLessThan('matlab', '8.1')
         makertwObj = get_param(gcs, 'MakeRTWSettingsObject');
     else
+        % TODO use rtwprivate('get_makertwsettings',gcs,'BuildInfo') - see
+        % R2013a Simulink Coder release notes.
         makertwObj = coder.internal.ModelCodegenMgr.getInstance;
     end
     makertwArgs = makertwObj.BuildInfo.BuildArgs;
