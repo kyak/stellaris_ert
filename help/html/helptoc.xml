@@ -17,6 +17,8 @@
             </tocitem>
             <tocitem target="buttons.html">Push Buttons
             </tocitem>
+            <tocitem target="adc.html">ADC
+            </tocitem>
         </tocitem>
     </tocitem>
 </toc>

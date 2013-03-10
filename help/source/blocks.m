@@ -7,3 +7,5 @@
 % <gpio.html GPIO> 
 %%
 % <buttons.html Push Buttons> 
+%%
+% <adc.html ADC> 
