@@ -3,6 +3,7 @@ blocks/rtwmakecfg.m
 *.o
 *.so*
 *.r2012a
+*.r2012b
 docs/*
 TODO
 help/html/*.html
