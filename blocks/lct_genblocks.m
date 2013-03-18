@@ -51,8 +51,18 @@ TempSensor.HeaderFiles = {'tempsensorlct.h'};
 TempSensor.SourceFiles = {'tempsensorlct.c'};
 TempSensor.StartFcnSpec = 'TempSensorInit()';
 TempSensor.OutputFcnSpec = 'uint32 y1 = TempSensorRead(uint8 p1)';
+%% ADC
+ADC = legacy_code('initialize');
+ADC.SFunctionName = 'sfun_ADC';
+ADC.HeaderFiles = {'adclct.h'};
+ADC.SourceFiles = {'adclct.c'};
+ADC.StartFcnSpec = 'ADCInit(uint8 p1, uint8 p2, uint8 p3[4], uint32 p4[8], uint32 p5[4], uint32 p6[4], uint32 p7, uint32 p8[4], uint32 p9[4], uint32 p10)';
+ADC.OutputFcnSpec = 'ADCStep(uint8 p1, uint8 p3[4], uint32 y1[8], uint32 y2[4], uint32 y3[4], uint32 y4[1])';
+%legacy_code('generate_for_sim', ADC);
+%legacy_code('sfcn_tlc_generate', ADC)
+%legacy_code('slblock_generate', ADC);
 %% Put multiple registration files together
-def = [GPIOWrite(:);GPIORead(:);GPIOSetup(:);Buttons(:);UARTRead(:);UARTWrite(:);TempSensor(:)];
+def = [GPIOWrite(:);GPIORead(:);GPIOSetup(:);Buttons(:);UARTRead(:);UARTWrite(:);TempSensor(:);ADC(:)];
 %% Legacy Code Tool
 % Generate, compile and link S-function for simulation
 legacy_code('generate_for_sim', def);

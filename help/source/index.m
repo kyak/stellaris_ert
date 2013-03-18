@@ -3,4 +3,4 @@
 %% Getting Started with TI Stellaris LaunchPad
 % <gs.html Getting Started with TI Stellaris LaunchPad>
 %% Simulink Blocks
-% <blocks.html Getting Started with TI Stellaris LaunchPad>
+% <blocks.html Simulink Blocks>

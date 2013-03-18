@@ -45,12 +45,13 @@ You should be good to go.
         * Push Buttons
         * UART Read/Write
         * Built-in temperature sensor
+        * Generic ADC
 
 **What this package would like to have:**
 
 - Simulink library blocks for:
 
-        * Generic ADC, PWM...
+        * PWM, Interrupts, uDMA...
         * Timers
 - More documentation
 - External Mode support
