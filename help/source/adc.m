@@ -95,7 +95,11 @@
 %
 % Each sequencer has a different number of steps. The table below
 % summarizes the possible number of steps for each sequencer.
-% 
+%
+% <html>
+% <a name="steps_table">Sequencers and steps</a>
+% </html>
+%
 % <html> <table border=1><tr><td>Sequencer</td><td>Number of
 % steps</td></tr> <tr><td>SS0</td><td>8</td></tr>
 % <tr><td>SS1</td><td>4</td></tr> <tr><td>SS2</td><td>4</td></tr>
@@ -130,8 +134,15 @@
 % choosing 'None'. After re-opening the ADC block, you will be able to
 % choose the 'New configuration..." from the popup.
 %
+% It is worth mentioning that you may up each step to sample different ADC
+% channels.
+%
 % _Reference: see ADCSequenceStepConfigure in DriverLib User Guide._
 %
+%% Block outputs
+% The block provides four outputs by the number of sequencers. Each output
+% is an array of uint32. The size of an array is equal to the number of
+% steps for according sample sequencer. See the <#steps_table above table> .
 %% Examples
 % Built-in temperature sensor
 % <tempsensor.html Built-in temperature sensor>
