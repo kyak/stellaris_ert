@@ -23,7 +23,7 @@ You don't have to download the complete StellarisWare package.
 Make sure your toolchain is working (build and download some test project, check connection)
 before you proceed!
 
-3) Make sure you have a working/supported host compiler (http://www.mathworks.com/support/compilers/R2012b/index.html) by running
+3) Make sure you have a working/supported host compiler (http://www.mathworks.com/support/compilers/R2013a/index.html) by running
         
         mex -setup
 in MATLAB.
