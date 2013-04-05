@@ -105,6 +105,9 @@
 % <tr><td>SS1</td><td>4</td></tr> <tr><td>SS2</td><td>4</td></tr>
 % <tr><td>SS3</td><td>1</td></tr> </table></html>
 %
+% Note that the steps 5-8 of Sample sequencer 0 are located in a separate
+% tab. This is just for convenience.
+%
 % When the sample sequencer is enabled, you must configure one or more
 % steps. The step configuration is carried out by choosing the "New
 % configuration..." item in the popup of the specific step.
@@ -125,17 +128,18 @@
 % The parameters you've chosen will be logically OR'd and form the
 % configuration for the step.
 %
-% You will be able to see your new configuration for the step after you
-% re-open the ADC block.
+% You will see your chosen configuration immediately in the "Step X chosen
+% config:" editbox.
 %
-% If you wish to delete the configuration, choose 'None' from the popup.
+% If you wish to delete the configuration, choose "New configuration..."
+% from the popup and then choose 'None' from the list.
 %
-% If you wish to reconfigure the step, first delete the configuration by
-% choosing 'None'. After re-opening the ADC block, you will be able to
-% choose the 'New configuration..." from the popup.
+% If you wish to reconfigure the step, simply choose the "New
+% configuration..." from the popup and choose your configuration from the
+% list.
 %
-% It is worth mentioning that you may up each step to sample different ADC
-% channels.
+% It is worth mentioning that you may set up each step to sample different
+% ADC channels.
 %
 % _Reference: see ADCSequenceStepConfigure in DriverLib User Guide._
 %
