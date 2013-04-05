@@ -1,9 +1,10 @@
 function stellaris_adc_stepconfig(blk,step_idx)
-    styles = get_param(blk,'MaskStyles');
+    values = get_param(blk,'MaskValues');
     %str = inputdlg;
 
     % See drivelib/adc.h
     config = {
+        'None'            '00000000'    'Disable the step'
         'ADC_CTL_TS'      '00000080'    'Temperature sensor select'
         'ADC_CTL_IE'      '00000040'    'Interrupt enable'
         'ADC_CTL_END'     '00000020'    'Sequence end select'
@@ -36,7 +37,7 @@ function stellaris_adc_stepconfig(blk,step_idx)
     
     if (ok == 1)
         % String to display in mask
-        str = strjoin(config(Selection),'\\|');
+        str = strjoin(config(Selection),'|');
         % Value to keep in mask and pass to S-function
         vals = hex2dec(config(Selection,2));
         val = 0;
@@ -50,13 +51,16 @@ function stellaris_adc_stepconfig(blk,step_idx)
         str = [str,'(',num2str(val),')'];
     else
         % User pressed Cancel button
-        str = 'None';
+        str = 'None(0)';
     end
     
-    styles{step_idx} = ['popup(None|',str,')'];
-    set_param(blk,'MaskStyles',styles);
-    if (ok == 1)
+    % Revert back to '----'
+    values{step_idx} = '----';
+    % Display the config to user
+    values{step_idx+1} = str;
+    set_param(blk,'MaskValues',values);
+    %if (ok == 1)
         % User pressed OK
-        msgbox('Configuration is saved and selected for this step. It will appear in popup next time you open the ADC block');
-    end
+        %msgbox('Configuration is saved and selected for this step. It will appear in popup next time you open the ADC block');
+    %end
 end
