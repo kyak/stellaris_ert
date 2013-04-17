@@ -1,0 +1,9 @@
+%if (ExtMode == 1)
+  %%assign ::CompiledModel.GenerateSampleERTMain = TLC_TRUE
+  %% I'm better off using static main module for external mode...
+  %%<LibAddToModelSources("ext_main")>
+  %% this only adds it to Makefile.. I already have it there, and want to have it in code report
+  %% Therefore i'm using the post code gen hook
+%else
+  %include "stellaris_srmain.tlc"
+%endif
