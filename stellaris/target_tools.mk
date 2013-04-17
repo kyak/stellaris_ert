@@ -8,7 +8,7 @@ CFLAGS = -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi \
          --include_path="$(StellarisWareRoot)" \
          --define=TARGET_IS_BLIZZARD_RA1
 
-CFLAGS += $(OPTS)
+CFLAGS += $(EXT_CC_OPTS) $(OPTS)
 CDEBUG = -g
 CCOUTPUTFLAG = --output_file=
 
@@ -25,6 +25,7 @@ LDFLAGS = -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi \
           --rom_model "$(CCSRoot)/ccs_base/arm/include/lm4f210h5qr.cmd" \
           --define=TARGET_IS_BLIZZARD_RA1
 
+LDFLAGS_EXTMODE = -l"libc.a"
 LDDEBUG =
 LDOUTPUTFLAG = --output_file=
 

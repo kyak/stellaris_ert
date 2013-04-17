@@ -1,9 +1,11 @@
 %% SYSTLC: TI Stellaris LaunchPad TMF: stellaris_tmf MAKE: make_rtw \
-%% EXTMODE: ext_comm
+%% EXTMODE: ext_stellaris_serial
 
 %assign CodeFormat = "Embedded-C"
 %assign Language   = "C"
 %assign TargetType = "RT"
+
+%assign AutoBuildProcedure = 1
 
 %include "codegenentry.tlc"
 

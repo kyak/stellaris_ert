@@ -2,6 +2,8 @@ function sl_customization(cm)
 % SL_CUSTOMIZATION for TI Stellaris LaunchPad PIL connectivity config
 
 cm.registerTargetInfo(@loc_createSerialConfig);
+%External mode
+cm.ExtModeTransports.add('stellaris.tlc', 'Stellaris serial', 'ext_stellaris_serial', 'Level1');
 
 % local function
 function config = loc_createSerialConfig

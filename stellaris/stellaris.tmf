@@ -149,20 +149,21 @@ endif
 # To add a new transport layer, see the comments in
 #   <matlabroot>/toolbox/simulink/simulink/extmode_transports.m
 ifeq ($(EXT_MODE),1)
-  EXT_CC_OPTS = -DEXT_MODE -D$(COMPUTER) #-DVERBOSE
+  EXT_CC_OPTS = -DEXT_MODE -D$(COMPUTER) -DMODEL=$(MODEL) -DNUMST=$(NUMST) -DONESTEPFCN=$(ONESTEPFCN) #-DVERBOSE
+  EXT_CC_OPTS += -DTERMFCN=$(TERMFCN) -DMAT_FILE=$(MAT_FILE)
   EXT_LIB     =
   EXT_SRC     =
   LINT_EXT_COMMON_SRC =
   LINT_EXT_TCPIP_SRC  =
-  ifeq ($(EXTMODE_TRANSPORT),0) #tcpip
-    EXT_SRC = ext_svr.c updown.c ext_work.c rtiostream_interface.c rtiostream_tcpip.c
-    LINT_EXT_COMMON_SRC = ext_svr.c updown.c ext_work.c
-    LINT_EXT_TCPIP_SRC  = rtiostream_interface.c rtiostream_tcpip.c
+  ifeq ($(EXTMODE_TRANSPORT),0) #serial stellaris
+    EXT_SRC += ext_svr.c updown.c ext_work.c
+    EXT_SRC += ext_svr_serial_transport.c ext_serial_pkt.c
+    EXT_SRC += rtiostream_serial_interface.c rtiostreamserial.c
   endif
   ifeq ($(EXTMODE_TRANSPORT),1) #serial_win32
     err:
 	@echo
-	@echo "### ERROR: External mode serial transport only available on win32"
+	@echo "### ERROR: You shouldn't get here. Probably you have another External Mode transport already registered for Stellaris."
 	@echo
   endif
   ifeq ($(TMW_EXTMODE_TESTING),1)
@@ -221,14 +222,17 @@ endif
 ifeq ($(BUILD_MODE), pil_application)
   SRCS += $(TARGET_SRCS) $(TARGET_BLOCK_SRCS)
   PREBUILT_SRCS      = $(subst \,/,$(MODULES))
+  #For top model PIL, exclude main from build
+  #TODO: i get undefined symbols from xil_interface...
+  #PREBUILT_SRCS := $(subst main_$(MODEL).c,,$(SRCS))
   PREBUILT_OBJS      = $(addsuffix $(OBJ_EXT), $(basename $(PREBUILT_SRCS)))
 endif
 
 ifeq ($(BUILD_MODE), real_time)
-          ifeq ($(GEN_SAMPLE_MAIN),0)
+          ifeq ($(EXT_MODE),0)
             SRCS += main_$(MODEL).c
           else
-            SRCS += ert_main.$(TARGET_LANG_EXT)
+            SRCS += ext_main.c
           endif
   SRCS += $(MODULES) $(MODEL).$(TARGET_LANG_EXT) $(EXT_SRC)
   SRCS += $(TARGET_BLOCK_SRCS) $(TARGET_SRCS) 
@@ -310,7 +314,7 @@ endif
 ifeq ($(BUILD_MODE), real_time)
 $(MODEL)$(PROGRAM_FILE_EXT): $(OBJS) $(MODELREF_LINK_LIBS) $(SHARED_LIB) $(LIBS)
 	@echo "### BUILD_MODE $(BUILD_MODE)"
-	$(LD) $(LDFLAGS) $^ $(LDOUTPUTFLAG)$@ 
+	$(LD) $(LDFLAGS) $^ $(LDOUTPUTFLAG)$@ $(LDFLAGS_EXTMODE)
 	@echo "### Generated $@"
 endif
 
@@ -327,6 +331,9 @@ endif
 	$(CC) -c $(CFLAGS) $< $(CCOUTPUTFLAG)$@ 
 
 %$(OBJ_EXT): $(MATLAB_ROOT)/rtw/c/src/rtiostream/rtiostreamserial/%.c
+	$(CC) -c $(CFLAGS) $< $(CCOUTPUTFLAG)$@
+
+%$(OBJ_EXT): $(MATLAB_ROOT)/rtw/c/src/ext_mode/serial/%.c
 	$(CC) -c $(CFLAGS) $< $(CCOUTPUTFLAG)$@
 
 %$(OBJ_EXT): $(TargetRoot)/%.c

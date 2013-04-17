@@ -2,10 +2,10 @@
 
 %function FcnSingleTaskingMain(mainFileName) void
   
-  %if GenerateSampleERTMain
-    %assign ::CompiledModel.GenerateSampleERTMain = TLC_FALSE
-    %warning Overriding example (e)rt_main.c!
-  %endif
+  %%if GenerateSampleERTMain
+    %%assign ::CompiledModel.GenerateSampleERTMain = TLC_FALSE
+    %%warning Overriding example (e)rt_main.c!
+  %%endif
 
   %assign cFile = LibCreateSourceFile("Source", "Custom", mainFileName)
 
