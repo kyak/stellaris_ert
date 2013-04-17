@@ -1,5 +1,6 @@
 blocks/sfun_*
 blocks/rtwmakecfg.m
+blocks/*.mex*
 *.o
 *.so*
 *.r2012a
