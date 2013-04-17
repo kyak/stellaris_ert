@@ -172,8 +172,7 @@ void (* const g_pfnVectors[])(void) =
 
 void ResetISR(void)
 {
-    __asm("    .global _c_int00\n"
-            "    b.w     _c_int00");
+    __asm("    .global _c_int00\n    b.w     _c_int00");
 }
 
 static void NmiSR(void)
