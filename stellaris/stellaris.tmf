@@ -223,8 +223,7 @@ ifeq ($(BUILD_MODE), pil_application)
   SRCS += $(TARGET_SRCS) $(TARGET_BLOCK_SRCS)
   PREBUILT_SRCS      = $(subst \,/,$(MODULES))
   #For top model PIL, exclude main from build
-  #TODO: i get undefined symbols from xil_interface...
-  #PREBUILT_SRCS := $(subst main_$(MODEL).c,,$(SRCS))
+  PREBUILT_SRCS := $(subst ../main_$(MODEL).c,,$(PREBUILT_SRCS))
   PREBUILT_OBJS      = $(addsuffix $(OBJ_EXT), $(basename $(PREBUILT_SRCS)))
 endif
 
