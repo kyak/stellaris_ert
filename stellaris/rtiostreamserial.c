@@ -54,17 +54,15 @@ int rtIOStreamRecv(
         int      streamID,  // A handle to the stream that was returned by a previous call to rtIOStreamOpen.
         void   * dst,       // A pointer to the start of the buffer where received data must be copied.
         size_t   size, 	    // Size of data to copy into the buffer. For byte-addressable architectures,
-                            // size is measured in bytes. Some DSP architectures are not byte-addressable.
-                            // In these cases, size is measured in number of WORDs, where sizeof(WORD) == 1.
+        // size is measured in bytes. Some DSP architectures are not byte-addressable.
+        // In these cases, size is measured in number of WORDs, where sizeof(WORD) == 1.
         size_t * sizeRecvd) // The number of units of data received and copied into the buffer dst (zero if no data was copied).
 {
     unsigned char *ptr = (unsigned char *)dst; // Initialize ptr is a pointer to the buffer of chars.
     
     *sizeRecvd=0U; // Initialize the number of received chars to zero.
     
-    unsigned int sizeRecvd_nb = 0;
-    
-    while (sizeRecvd_nb < size) // Try to receive char as many times as commanded.
+    while (*sizeRecvd < size) // Try to receive char as many times as commanded.
     {
         if (ROM_UARTCharsAvail(UART0_BASE))
         {
@@ -72,9 +70,10 @@ int rtIOStreamRecv(
             //*ptr++ = ROM_UARTCharGet(UART0_BASE);
             // Increase the number of received chars.
             (*sizeRecvd)++;
+        } else {
+            return RTIOSTREAM_NO_ERROR;
         }
-        // Increase the number of read attempts, so that we don't block in here
-        sizeRecvd_nb++;
+        
     }
     return RTIOSTREAM_NO_ERROR;
 }
