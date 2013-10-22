@@ -7,12 +7,13 @@ if (strcmp(get_param(modelName,'SystemTargetFile')  ,'stellaris.tlc') && ...
     % Check if user chose to Download to Launchpad in Settings
     if verLessThan('matlab', '8.1')
         makertwObj = get_param(gcs, 'MakeRTWSettingsObject');
+        makertwArgs = makertwObj.BuildInfo.BuildArgs;
     else
-        % TODO use rtwprivate('get_makertwsettings',gcs,'BuildInfo') - see
-        % R2013a Simulink Coder release notes.
-        makertwObj = coder.internal.ModelCodegenMgr.getInstance;
+        % See R2013a Simulink Coder release notes.
+        makertwObj = rtwprivate('get_makertwsettings',gcs,'BuildInfo');
+        makertwArgs = makertwObj.BuildArgs;
     end
-    makertwArgs = makertwObj.BuildInfo.BuildArgs;
+
     downloadToLaunchPad = 1;
     for i=1:length(makertwArgs)
         if strcmp(makertwArgs(i).DisplayLabel,'LAUNCHPAD_DOWNLOAD')

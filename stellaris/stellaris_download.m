@@ -11,7 +11,7 @@ CCSRoot = getpref('stellaris','CCSRoot');
 if (ischar(makertwObj)) %String 'PIL'
     outfile = modelName;
 else
-    outfile = fullfile(makertwObj.BuildDirectory, [modelName, '.out']);
+    outfile = [modelName, '.out'];
     %outfilebin = fullfile(makertwObj.BuildDirectory, [modelName, '.bin']);
 end
 if isunix
