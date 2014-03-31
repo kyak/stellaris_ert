@@ -10,7 +10,7 @@ if (strcmp(get_param(modelName,'SystemTargetFile')  ,'stellaris.tlc') && ...
         makertwArgs = makertwObj.BuildInfo.BuildArgs;
     else
         % See R2013a Simulink Coder release notes.
-        makertwObj = rtwprivate('get_makertwsettings',gcs,'BuildInfo');
+        makertwObj = rtwprivate('get_makertwsettings',modelName,'BuildInfo');
         makertwArgs = makertwObj.BuildArgs;
     end
 
