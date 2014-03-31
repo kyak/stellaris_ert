@@ -3,7 +3,10 @@ function stellaris_customcode(buildInfo)
 % TODO: what is user wants to provide his own?... How to extend this
 % file anyway? Seems i have to generate it dynamically via TLC.
 % Or get rid of it by registering timer interrupt with driverlib functions.
-buildInfo.addSourceFiles('startup_ccs.c',getpref('stellaris','TargetRoot'),'CustomCode');
+% Don't add this file for SIL
+if ~i_isSIL(buildInfo)
+    buildInfo.addSourceFiles('startup_ccs.c',getpref('stellaris','TargetRoot'),'CustomCode');
+end
 
 makertwArgs = buildInfo.BuildArgs;
 
@@ -16,4 +19,10 @@ end
 % See comments in stellaris_main.tlc as to why i'm doing this
 if (externalMode == 1)
     buildInfo.addSourceFiles('ext_main.c',getpref('stellaris','TargetRoot'),'CustomCode');
+end
+end
+
+function isSIL = i_isSIL(buildInfo)
+buildOpts = rtwprivate('get_makertwsettings',buildInfo.ModelName,'BuildOpts');
+isSIL = buildOpts.XilInfo.IsSil;
 end
