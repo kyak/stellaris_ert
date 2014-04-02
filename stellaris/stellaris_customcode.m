@@ -3,8 +3,11 @@ function stellaris_customcode(buildInfo)
 % TODO: what is user wants to provide his own?... How to extend this
 % file anyway? Seems i have to generate it dynamically via TLC.
 % Or get rid of it by registering timer interrupt with driverlib functions.
-% Don't add this file for SIL
-if ~i_isSIL(buildInfo)
+if i_isSIL(buildInfo)
+    % Don't add this file for SIL. Remove it, if already exists (when SIL is
+    % launched right after PIL).
+    buildInfo = remSourceFiles(buildInfo,'startup_ccs.c');
+else
     buildInfo.addSourceFiles('startup_ccs.c',getpref('stellaris','TargetRoot'),'CustomCode');
 end
 
@@ -25,4 +28,20 @@ end
 function isSIL = i_isSIL(buildInfo)
 buildOpts = rtwprivate('get_makertwsettings',buildInfo.ModelName,'BuildOpts');
 isSIL = buildOpts.XilInfo.IsSil;
+end
+
+function buildInfo = remSourceFiles(buildInfo,filename)
+files = buildInfo.Src.Files;
+idx = [];
+for i=1:length(files)
+    % If this is our file...
+        if strcmp(files(i).DisplayLabel,filename)
+            % Mark its position
+            idx = [idx i];
+        end    
+end
+% Remove all files at once
+files(idx) = [];
+% And update buildInfo
+buildInfo.Src.Files = files;
 end
