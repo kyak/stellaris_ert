@@ -14,7 +14,7 @@ generate C code and deploy your algorithms to target hardware.
 
 **Installation:**
 
-1) Windows/Linux: Have Code Composer Studio 5.3 installed (http://processors.wiki.ti.com/index.php/Download_CCS).
+1) Windows/Linux: Have Code Composer Studio 5.3 (or above) installed (http://processors.wiki.ti.com/index.php/Download_CCS).
 
 2) Windows/Linux: Have StellarisWare installed (http://www.ti.com/tool/SW-EK-LM4F120XL).
 You don't have to download the complete StellarisWare package.
@@ -23,7 +23,7 @@ You don't have to download the complete StellarisWare package.
 Make sure your toolchain is working (build and download some test project, check connection)
 before you proceed!
 
-3) Make sure you have a working/supported host compiler (http://www.mathworks.com/support/compilers/R2013a/index.html) by running
+3) Make sure you have a working/supported host compiler (http://www.mathworks.com/support/compilers/R2014a/index.html) by running
         
         mex -setup
 in MATLAB.
