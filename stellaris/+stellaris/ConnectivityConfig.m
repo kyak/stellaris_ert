@@ -80,8 +80,14 @@ classdef ConnectivityConfig < rtw.connectivity.Config
             
             % Register a hardware-specific timer. Registering the timer
             % enables the code execution profiling feature.
-            timer = stellaris.Timer;
-            this.setTimer(timer);
+            if verLessThan('matlab', '8.3')
+                % For releases prior to R2014a, use coder.profile.Timer class
+                timer = stellaris.Timer;
+                this.setTimer(timer)
+            else
+                % Otherwise, use stellaris_timer.m code replacement library
+                this.setTimer(stellaris_timer)
+            end
             
         end
     end
