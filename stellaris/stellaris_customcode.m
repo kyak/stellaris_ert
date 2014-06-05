@@ -7,6 +7,9 @@ if i_isSIL(buildInfo)
     % Don't add this file for SIL. Remove it, if already exists (when SIL is
     % launched right after PIL).
     buildInfo = remSourceFiles(buildInfo,'startup_ccs.c');
+elseif i_isPIL(buildInfo)
+    % Remove main_.c from sources for PIL
+    buildInfo = remSourceFiles(buildInfo,['main_',buildInfo.ModelName,'.c']);
 else
     buildInfo.addSourceFiles('startup_ccs.c',getpref('stellaris','TargetRoot'),'CustomCode');
 end
@@ -28,6 +31,11 @@ end
 function isSIL = i_isSIL(buildInfo)
 buildOpts = rtwprivate('get_makertwsettings',buildInfo.ModelName,'BuildOpts');
 isSIL = buildOpts.XilInfo.IsSil;
+end
+
+function isPIL = i_isPIL(buildInfo)
+buildOpts = rtwprivate('get_makertwsettings',buildInfo.ModelName,'BuildOpts');
+isPIL = buildOpts.XilInfo.IsPil;
 end
 
 function buildInfo = remSourceFiles(buildInfo,filename)
