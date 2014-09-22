@@ -38,7 +38,7 @@ void UARTInit(void)
 
 void BoardInit() {
     ROM_FPULazyStackingEnable();
-    ROM_SysCtlClockSet(SYSCTL_SYSDIV_5 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN);
+    ROM_SysCtlClockSet(SYSCTL_SYSDIV_2_5 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN);
     ROM_IntMasterEnable();
 }
 
