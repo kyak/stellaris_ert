@@ -7,7 +7,7 @@ classdef Timer < coder.profile.Timer
             
             % What returns profileTimerRead() function
             % see BoardInit() in rtiostreamserial.c
-            ticksPerSecond = 40e6;
+            ticksPerSecond = 80e6;
             this.setTicksPerSecond(ticksPerSecond);
             
             % The timer counts downwards

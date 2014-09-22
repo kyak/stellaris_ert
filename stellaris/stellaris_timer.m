@@ -11,7 +11,7 @@ hEnt.setTflCFunctionEntryParameters( ...
           'ImplementationSourceFile', fullfile(getpref('stellaris','TargetRoot'),'stellaris_timer.c'));
 
 hEnt.EntryInfo.CountDirection = 'RTW_TIMER_DOWN';
-hEnt.EntryInfo.TicksPerSecond = 40000000;
+hEnt.EntryInfo.TicksPerSecond = 80000000;
 % Conceptual Args
 
 arg = hEnt.getTflArgFromString('y1','uint32');

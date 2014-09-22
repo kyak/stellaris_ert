@@ -138,10 +138,10 @@ unsigned long g_ulFlags;
     //                   SYSCTL_XTAL_16MHZ);
 
     //
-    // Set the system clock to run at 40Mhz off PLL with external crystal as 
-    // reference.
+    // Set the system clock to run at 80Mhz off PLL with external crystal as 
+    // reference (SYSCTL_SYSDIV_5 for 40Mhz).
     //
-    ROM_SysCtlClockSet(SYSCTL_SYSDIV_5 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ |
+    ROM_SysCtlClockSet(SYSCTL_SYSDIV_2_5 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ |
                        SYSCTL_OSC_MAIN);
 
     //
