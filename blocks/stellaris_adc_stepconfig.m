@@ -1,5 +1,5 @@
 function stellaris_adc_stepconfig(blk,step_idx)
-    values = get_param(blk,'MaskValues');
+    %values = get_param(blk,'MaskValues');
     %str = inputdlg;
 
     % See drivelib/adc.h
@@ -55,10 +55,11 @@ function stellaris_adc_stepconfig(blk,step_idx)
     end
     
     % Revert back to '----'
-    values{step_idx} = '----';
+    %values{step_idx} = '----';
     % Display the config to user
-    values{step_idx+1} = str;
-    set_param(blk,'MaskValues',values);
+    %values{step_idx+1} = str;
+    set_param(blk,step_idx,'----');
+    set_param(blk,step_idx(3:end),str);
     %if (ok == 1)
         % User pressed OK
         %msgbox('Configuration is saved and selected for this step. It will appear in popup next time you open the ADC block');
