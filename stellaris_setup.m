@@ -1,5 +1,6 @@
 function stellaris_setup()
 
+cd('stellaris');
 curpath = pwd;
 tgtpath = curpath(1:end-length('/stellaris'));
 addpath(fullfile(tgtpath, 'stellaris'));
@@ -66,7 +67,7 @@ else
         '-output ',fullfile(curpath,'..\blocks'),'\ext_stellaris_serial'];
 end
 eval(['mex ',mexcmd]);
-cd(curpath);
+cd(fullfile(curpath,'..'));
 
 sl_refresh_customizations;
 disp('<strong>TI Stellaris LaunchPad</strong> Target setup is complete!');
