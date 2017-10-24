@@ -10,6 +10,7 @@ if i_isSIL(buildInfo)
 elseif i_isPIL(buildInfo)
     % Remove main_.c from sources for PIL
     buildInfo = remSourceFiles(buildInfo,['main_',buildInfo.ModelName,'.c']);
+    buildInfo.addSourceFiles('startup_ccs.c',getpref('stellaris','TargetRoot'),'CustomCode');
 else
     buildInfo.addSourceFiles('startup_ccs.c',getpref('stellaris','TargetRoot'),'CustomCode');
 end
