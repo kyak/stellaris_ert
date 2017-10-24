@@ -30,13 +30,23 @@ end
 end
 
 function isSIL = i_isSIL(buildInfo)
-buildOpts = rtwprivate('get_makertwsettings',buildInfo.ModelName,'BuildOpts');
-isSIL = buildOpts.XilInfo.IsSil;
+if verLessThan('matlab','9.3')
+    buildOpts = rtwprivate('get_makertwsettings',buildInfo.ModelName,'BuildOpts');
+    isSIL = buildOpts.XilInfo.IsSil;
+else
+    modelCodegenMgr = coder.internal.ModelCodegenMgr.getInstance(buildInfo.modelName);
+    isSIL = modelCodegenMgr.MdlRefBuildArgs.XilInfo.IsSil;
+end
 end
 
 function isPIL = i_isPIL(buildInfo)
-buildOpts = rtwprivate('get_makertwsettings',buildInfo.ModelName,'BuildOpts');
-isPIL = buildOpts.XilInfo.IsPil;
+if verLessThan('matlab','9.3')
+    buildOpts = rtwprivate('get_makertwsettings',buildInfo.ModelName,'BuildOpts');
+    isPIL = buildOpts.XilInfo.IsPil;
+else
+    modelCodegenMgr = coder.internal.ModelCodegenMgr.getInstance(buildInfo.modelName);
+    isPIL = modelCodegenMgr.MdlRefBuildArgs.XilInfo.IsPil;
+end
 end
 
 function buildInfo = remSourceFiles(buildInfo,filename)
