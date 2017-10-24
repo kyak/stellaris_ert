@@ -29,7 +29,9 @@ classdef Launcher < rtw.connectivity.Launcher
                 % TODO it seems that there might be a bug in rtiostreamserial
                 % host implementation on Linux. The speed is not set or set too
                 % late...
-                system(['stty 115200 -F /dev/',getpref('stellaris','COMPort')]);
+                % "raw" is set to avoid eol conversion. Otherwise, target
+                % sends 13 and hosts gets 10.
+                system(['stty -F /dev/',getpref('stellaris','COMPort'),' 115200 raw']);
             end
 			disp('### Starting PIL execution on TI Stellaris LaunchPad');
         end
