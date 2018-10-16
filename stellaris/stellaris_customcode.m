@@ -34,7 +34,7 @@ if verLessThan('matlab','9.3')
     buildOpts = rtwprivate('get_makertwsettings',buildInfo.ModelName,'BuildOpts');
     isSIL = buildOpts.XilInfo.IsSil;
 else
-    modelCodegenMgr = coder.internal.ModelCodegenMgr.getInstance(buildInfo.modelName);
+    modelCodegenMgr = coder.internal.ModelCodegenMgr.getInstance(buildInfo.ModelName);
     isSIL = modelCodegenMgr.MdlRefBuildArgs.XilInfo.IsSil;
 end
 end
@@ -44,7 +44,7 @@ if verLessThan('matlab','9.3')
     buildOpts = rtwprivate('get_makertwsettings',buildInfo.ModelName,'BuildOpts');
     isPIL = buildOpts.XilInfo.IsPil;
 else
-    modelCodegenMgr = coder.internal.ModelCodegenMgr.getInstance(buildInfo.modelName);
+    modelCodegenMgr = coder.internal.ModelCodegenMgr.getInstance(buildInfo.ModelName);
     isPIL = modelCodegenMgr.MdlRefBuildArgs.XilInfo.IsPil;
 end
 end
