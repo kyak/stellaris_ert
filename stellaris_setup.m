@@ -72,7 +72,7 @@ cd(fullfile(curpath,'..'));
 
 sl_refresh_customizations;
 disp('<strong>TI Stellaris LaunchPad</strong> Target setup is complete!');
-disp('Explore <a href="matlab:cd([getpref(''stellaris'',''TargetRoot''),''/../demos''])">demos</a> directory and access <a href="matlab:doc -classic">documentation</a>');
+disp('Explore <a href="matlab:cd([getpref(''stellaris'',''TargetRoot''),''/../demos''])">demos</a> directory and access <a href="matlab:web(fullfile(getpref(''stellaris'',''TargetRoot''),''../help'',''html'',''index.html''))">documentation</a>')
 end
 
 function [CCSRoot, CompilerRoot, StellarisWareRoot] = ccs_setup_paths()
