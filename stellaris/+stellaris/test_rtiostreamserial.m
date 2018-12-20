@@ -2,4 +2,5 @@
 % web([docroot '/ecoder/ug/creating-a-connectivity-configuration-for-a-target.html'])
 % Run the "rtiostreamtest_stellaris" project in CCS.
 % Then run this command:
-rtiostreamtest('serial',getpref('stellaris','COMPort'),115200);
+rtiostreamtest('serial',getpref('stellaris','COMPort'),115200,'verbose');
+% Don't forget to do "stty -F /dev/ttyACM0 raw"

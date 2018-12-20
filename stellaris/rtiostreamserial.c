@@ -1,3 +1,5 @@
+//#define DEBUG
+
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
 #include "inc/hw_gpio.h"
@@ -9,6 +11,7 @@
 #include "driverlib/timer.h"
 
 #include "rtiostream.h"
+#include <stdio.h>
 
 void Timer0IntHandler(void) {
     /* This function is bogus and lives in startup_ccs.c */
@@ -60,6 +63,9 @@ int rtIOStreamRecv(
         size_t * sizeRecvd) // The number of units of data received and copied into the buffer dst (zero if no data was copied).
 {
     unsigned char *ptr = (unsigned char *)dst; // Initialize ptr is a pointer to the buffer of chars.
+    #ifdef DEBUG
+    int i;
+    #endif
     
     *sizeRecvd=0U; // Initialize the number of received chars to zero.
     
@@ -67,15 +73,24 @@ int rtIOStreamRecv(
     {
         if (ROM_UARTCharsAvail(UART0_BASE))
         {
-            *ptr++ = ROM_UARTCharGetNonBlocking(UART0_BASE);
+            *ptr = ROM_UARTCharGetNonBlocking(UART0_BASE);
             //*ptr++ = ROM_UARTCharGet(UART0_BASE);
             // Increase the number of received chars.
             (*sizeRecvd)++;
+            ptr++;
         } else {
             return RTIOSTREAM_NO_ERROR;
         }
         
     }
+    #ifdef DEBUG
+    printf("Received size: %d\n",*sizeRecvd);
+    printf("Rcvd data: ");
+    for (i = *sizeRecvd; i>0; i--) {
+        printf("%0x ",*--ptr);
+    }
+    printf("\n\n");
+    #endif
     return RTIOSTREAM_NO_ERROR;
 }
 
@@ -89,11 +104,24 @@ int rtIOStreamSend(
     
     *sizeSent=0U;
     unsigned char *ptr = (unsigned char *)src;
+    #ifdef DEBUG
+    int i;
+    #endif
     
     while (*sizeSent < size) {
         ROM_UARTCharPut(UART0_BASE,*ptr++);
         (*sizeSent)++;
     }
+    
+    #ifdef DEBUG
+    printf("Sent size: %d\n",*sizeSent);
+    printf("Sent data: ");
+    for (i = *sizeSent; i>0; i--) {
+        printf("%0x ",*--ptr);
+    }
+    printf("\n\n");
+    #endif
+    
     return RTIOSTREAM_NO_ERROR;
 }
 
