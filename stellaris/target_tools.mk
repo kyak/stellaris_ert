@@ -20,7 +20,7 @@ CXXDEBUG =
 LD      = $(CC)
 LDFLAGS = -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi \
           -me -O2 --define=PART_LM4F120H5QR --gcc --define=ccs="ccs" \
-          -z --stack_size=256 -m"$(MODEL).map" --heap_size=0 \
+          -z --stack_size=2048 -m"$(MODEL).map" --heap_size=2048 \
           -i"$(CompilerRoot)/lib" -i"$(CompilerRoot)/include" --reread_libs \
           --rom_model "$(CCSRoot)/ccs_base/arm/include/lm4f210h5qr.cmd" \
           --define=TARGET_IS_BLIZZARD_RA1

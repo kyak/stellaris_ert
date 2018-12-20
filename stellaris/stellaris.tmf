@@ -162,7 +162,12 @@ ifeq ($(EXT_MODE),1)
     EXT_SRC += ext_svr_serial_transport.c ext_serial_pkt.c
     EXT_SRC += rtiostream_serial_interface.c rtiostreamserial.c
   endif
-  ifeq ($(EXTMODE_TRANSPORT),1) #serial_win32
+  ifeq ($(EXTMODE_TRANSPORT),1) #ccp stellaris
+    #EXT_SRC += ext_svr.c updown.c ext_work.c
+    #EXT_SRC += ext_svr_serial_transport.c ext_serial_pkt.c
+    #EXT_SRC += rtiostream_serial_interface.c rtiostreamserial.c
+  endif
+  ifeq ($(EXTMODE_TRANSPORT),2) #serial_win32
     err:
 	@echo
 	@echo "### ERROR: You shouldn't get here. Probably you have another External Mode transport already registered for Stellaris."
@@ -234,6 +239,7 @@ ifeq ($(BUILD_MODE), real_time)
             SRCS += main_$(MODEL).c
           else
             SRCS += ext_main.c
+            #SRCS += main_$(MODEL).c
           endif
   SRCS += $(MODULES) $(MODEL).$(TARGET_LANG_EXT) $(EXT_SRC)
   SRCS += $(TARGET_BLOCK_SRCS) $(TARGET_SRCS) 
